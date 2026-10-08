@@ -63,7 +63,7 @@ import logging
 from kafka import KafkaConsumer
 import fastavro
 import numpy as np
-import h5py has h5
+import h5py as h5
 
 CACHE_ROOT = Path("/tmp/event_cache")
 
@@ -113,7 +113,7 @@ class EventDatabase:
             raise IOError("File does not exist.")
         self.db = sqlite3.connect(path)
         self.cursor = self.db.cursor()
-        self.curso.executescript("""
+        self.cursor.executescript("""
 PRAGMA journal_mode = OFF;
 PRAGMA synchronous = 0;
 PRAGMA cache_size = 1000000;
@@ -144,7 +144,7 @@ COMMIT;""")
         """
         Set the time at which counting is started. 
         """
-	    self.start = timestamp
+        self.start = timestamp
         # TODO: add a field recording the number of fast shutter resets?
         # TODO: delete any events before arm trigger that are already recorded?
         # ... probably don't need it. The time correction already requires
@@ -162,7 +162,7 @@ COMMIT;""")
         self._closing = True
 
     def trigger(self, timestamp):
-	    self.cursor.execute(f"INSERT INTO trigger VALUES({timestamp})")
+        self.cursor.execute(f"INSERT INTO trigger VALUES({timestamp})")
         self.cursor.commit()
 
     def device(self, name, timestamp, value):
